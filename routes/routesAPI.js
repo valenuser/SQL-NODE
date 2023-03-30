@@ -2,7 +2,10 @@ const express = require('express')
 
 const router = express.Router()
 
+
+
 const pool = require('../database')
+var {v4: uuidv4} = require('uuid')
 
 
 router.get('/',(req,res)=>{
@@ -12,13 +15,13 @@ router.get('/',(req,res)=>{
 })
 
 router.get('/:id',(req,res)=>{
-    pool.query('select * from dataUser where id ='+req.params.id,(err,response)=>{
+    pool.query('select * from dataUser where id ="'+req.params.id+'"',(err,response)=>{
         res.json(response)
     })
 })
 
 router.post('/',(req,res)=>{
-    pool.query("insert into dataUser(id,nombre,descripcion) values ('"+req.body.id+"','"+req.body.nombre+"','"+req.body.descripcion+"')", (err,response)=>{
+    pool.query("insert into dataUser(id,nombre,descripcion) values ('"+uuidv4()+"','"+req.body.nombre+"','"+req.body.descripcion+"')", (err,response)=>{
         res.json({status:'data saved'})
     })
 })
@@ -35,7 +38,8 @@ router.put('/:id',(req,res)=>{
 })
 
 router.delete('/:id',(req,res)=>{
-    pool.query('delete from dataUser where id='+req.params.id,(err,response)=>{
+    console.log(req.params.id);
+    pool.query('delete from dataUser where id="'+req.params.id+'"',(err,response)=>{
         res.json({status:'task deleted'})
     })
 })
