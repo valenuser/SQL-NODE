@@ -7,7 +7,6 @@ const pool = require('../database')
 
 router.get('/',(req,res)=>{
     pool.query('select * from dataUser',(err,response)=>{
-        console.log(response.length);
         res.json(response)
     })
 })
